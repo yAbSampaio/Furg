@@ -9,7 +9,7 @@ for y in Linha :
 		x=x.replace("20px","")
 		x=x.replace("\n","").strip()
 print x
--------------------------------------------------
+#-------------------------------------------------
 #encoding=utf-8
 
 x=int(raw_input("Digite o valor em que você deseja clarear a imagem."))
@@ -36,4 +36,4 @@ for i in listas[3:]:
 arq2=open("clone.pgm", "w")
 arq2.write(saida)
 arq2.close()
--------------------------------------------------------------
+#-------------------------------------------------------------
