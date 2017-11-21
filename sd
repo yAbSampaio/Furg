@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void separar(int *Vetor,int Param, int *ContP,int *ContI){
+	int i = 0,l,f;
+	for (;i<Param;i++){
+		if (Vetor[i]%2==0){
+			*ContP = *ContP + 1;
+		}
+		else{
+			*ContI = *ContI + 1;
+		}
+	}
+}
+
+void colocar (int *Vetor,int Param,int *VPar,int *VImp){
+
+	int j = 0,k=0,i=0;
+	for (; i<Param;i++){
+		if (Vetor[i]%2==0){	
+			VPar[j] = Vetor[i];
+			j++;
+		}
+		else{
+			VImp[k] = Vetor[i];
+			k++;
+		}
+	}
+}
+
+
+int main (){
+
+	int A,Cp,Ci;
+	int *V,*Vp,*Vi;
+	int i = 0;
+	printf("Valor Paremetro\n");
+	scanf("%d",&A);
+	
+	V = malloc(sizeof(int)*A);
+	
+	printf("Digite o vetor\n");
+	for (;i<A;i++){
+		scanf("%d",V[i]);
+}
+	separar(V,A,&Cp,&Ci);
+	Vp = malloc(sizeof(int)*Cp);
+	Vi = malloc(sizeof(int)*Ci);
+	colocar (V,A,Vp,Vi);
+	printf("Impares\n");
+	printf("Valor do cont impar %d\n",Ci);
+	i = 0;
+	for (;i<Ci;i++){
+		printf("%d ",Vi[i]);
+	}
+ 	printf("Pares\n");
+	printf("Valor do cont par %d\n",Cp);
+	i = 0;
+	for (;i<Cp;i++){
+		printf("%d ",Vp[i]);
+	}
+	free(V);
+	free(Vp);
+	free(Vi);
+
+}
