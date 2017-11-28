@@ -66,12 +66,12 @@ int main (){
     struct fracao Resultado;
     int L = 0, T = 0, K;
     int Expoe, Cont =0;
-    char Resultados[50][6];
+    int Resultados[50][6];
     int Parame[50];
     char Ope[7] = {'*','/','+','-'};
 	while (L == 0){
     	if (Cont!=0){
-    		printf("%d-Operacoes passadas:\n",1);
+    		printf("%100d-Operacoes passadas:\n",1);
     		int j = 0;
     		for(;j<Cont;j++){
     			if (Parame[j]!=5 && Parame[j]!=6){
@@ -86,6 +86,7 @@ int main (){
 				}
 			}
 		}
+		printf("\n");
     	printf("Escolha a operacao desejada\n 1- Mult 2- Div \n 3- Soma 4- Subtracao\n 5- Fatoracao 6- Elevar \n");
     	scanf("%d",&Para);	
     	if((Para == 5)||(Para == 6)){
