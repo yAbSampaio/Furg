@@ -1,0 +1,71 @@
+*----- Decodificador BCD para display de 7 segmentos
+*---Include da tecnologia---
+.include 32nm_HP.pm
+.include library.txt
+
+*--- Fonte de Alimentação
+Vvdd vdd gnd 0.9V
+
+*--- Declaracao da Entradas
+
+Va d gnd PULSE (0.9 0 0 0 0 1n 2n)
+Vb c gnd PULSE (0.9 0 0 0 0 2n 4n)
+Vc b gnd PULSE (0.9 0 0 0 0 4n 8n)
+Vd a gnd PULSE (0.9 0 0 0 0 8n 16n)
+
+*--- Declaração do Circuito
+
+*-----INVS
+Xinv1 a an vdd gnd INV
+Xinv2 b bn vdd gnd INV
+Xinv3 c cn vdd gnd INV
+Xinv4 d dn vdd gnd INV
+
+*--- Verificar 'LED Superior' sup
+Xand0 b d r0 vdd gnd AND2
+Xand1 bn dn r1 vdd gnd AND2
+Xor1 c a r0 r1 sup vdd gnd OR4
+
+*--- Verificar 'LED Vertical Superior Direito' vsd 
+Xand2 cn dn r2 vdd gnd AND2
+Xand3 c d r3 vdd gnd AND2
+Xor2 bn r2 r3 vsd vdd gnd OR3
+
+*--- Verificar 'LED Vertical Inferior Direito' vid 
+Xor3 cn d b vid vdd gnd OR3
+
+*--- Verificar 'LED Inferior' inf
+Xand4 c dn r4 vdd gnd AND2
+Xand5 bn c r5 vdd gnd AND2
+Xand6 bn dn r6 vdd gnd AND2
+Xand7 b cn d r7 vdd gnd AND3
+Xor4 a r4 r5 r6 r7 inf vdd gnd OR5
+
+*--- Verificar 'LED Vertical Inferior Esquerda' vie
+Xand15 dn bn r15 vdd gnd AND2
+Xand14 c dn r14 vdd gnd AND2
+Xor0 r15 r14 vie vdd gnd OR2 
+
+
+*--- Verificar 'LED Vertical Superior Esquerda' vse 
+Xand8 dn cn r8 vdd gnd AND2
+Xand9 b cn r9 vdd gnd AND2
+Xand10 b dn r10 vdd gnd AND2
+Xor5 a r9 r10 r8 vse vdd gnd OR4
+
+*--- Verificar 'LED Vertical Meio' mid
+Xand11 c dn r11 vdd gnd AND2
+Xand12 b cn r12 vdd gnd AND2
+Xand13 c bn r13 vdd gnd AND2
+Xor6 a r11 r12 r13 mid vdd gnd OR4
+
+* Análise transiente
+
+.tran 1p 10n
+
+.control
+run
+plot  d c+1 b+2 a+3 sup+4 vsd+5 vid+6 inf+8 vie+9 vse+10 mid+11
+.endc
+
+.end

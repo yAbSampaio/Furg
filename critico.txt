@@ -1,0 +1,112 @@
+*----- Decodificador BCD para display de 7 segmentos
+*---Include da tecnologia---
+.include 32nm_HP.pm
+.include library.txt
+
+*--- Fonte de Alimentação
+Vvdd vdd gnd 0.9V
+
+*--- Declaracao da Entradas
+Vd d gnd pwl (0n 0 1n 0 1.01n 0.9 2n 0.9 2.01n 0)
+Vc c gnd pwl (0n 0 3n 0 3.01n 0.9 4n 0.9 4.01n 0)
+Vb b gnd pwl (0n 0 5n 0 5.01n 0.9 6n 0.9 6.01n 0)
+Va a gnd pwl (0n 0 7n 0 7.01n 0.9 8n 0.9 8.01n 0)
+
+*--- Declaração do Circuito
+
+*-----INVS
+Xinv1 a an vdd gnd INV
+Xinv2 b bn vdd gnd INV
+Xinv3 c cn vdd gnd INV
+Xinv4 d dn vdd gnd INV
+
+*--- Verificar 'LED Superior' sup
+Xand0 b d r0 vdd gnd AND2
+Xand1 bn dn r1 vdd gnd AND2
+Xor1 c a r0 r1 sup vdd gnd OR4
+
+*--- Verificar 'LED Vertical Superior Direito' vsd 
+Xand2 cn dn r2 vdd gnd AND2
+Xand3 c d r3 vdd gnd AND2
+Xor2 bn r2 r3 vsd vdd gnd OR3
+
+*--- Verificar 'LED Vertical Inferior Direito' vid 
+Xor3 cn d b vid vdd gnd OR3
+
+*--- Verificar 'LED Inferior' inf
+Xand4 c dn r4 vdd gnd AND2
+Xand5 bn c r5 vdd gnd AND2
+Xand6 bn dn r6 vdd gnd AND2
+Xand7 b cn d r7 vdd gnd AND3
+Xor4 a r4 r5 r6 r7 inf vdd gnd OR5
+
+*--- Verificar 'LED Vertical Inferior Esquerda' vie
+Xand15 dn bn r15 vdd gnd AND2
+Xand14 c dn r14 vdd gnd AND2
+Xor0 r15 r14 vie vdd gnd OR2 
+
+
+*--- Verificar 'LED Vertical Superior Esquerda' vse 
+Xand8 dn cn r8 vdd gnd AND2
+Xand9 b cn r9 vdd gnd AND2
+Xand10 b dn r10 vdd gnd AND2
+Xor5 a r9 r10 r8 vse vdd gnd OR4
+
+*--- Verificar 'LED Vertical Meio' mid
+Xand11 c dn r11 vdd gnd AND2
+Xand12 b cn r12 vdd gnd AND2
+Xand13 c bn r13 vdd gnd AND2
+Xor6 a r11 r12 r13 mid vdd gnd OR4
+
+
+.measure tran TPLH_d-sup trig v(d) val=0.45 rise=1 targ v(sup) val=0.45 fall=1
+.measure tran TPHL_d-sup trig v(d) val=0.45 fall=1 targ v(sup) val=0.45 rise=1
+
+.measure tran TPLH_d-inf trig v(d) val=0.45 rise=1 targ v(inf) val=0.45 fall=1
+.measure tran TPHL_d-inf trig v(d) val=0.45 fall=1 targ v(inf) val=0.45 rise=1
+
+.measure tran TPLH_d-vie trig v(d) val=0.45 rise=1 targ v(vie) val=0.45 fall=1
+.measure tran TPHL_d-vie trig v(d) val=0.45 fall=1 targ v(vie) val=0.45 rise=1
+
+.measure tran TPLH_d-vse trig v(d) val=0.45 rise=1 targ v(vse) val=0.45 fall=1
+.measure tran TPHL_d-vse trig v(d) val=0.45 fall=1 targ v(vse) val=0.45 rise=1
+
+.measure tran TPLH_c-vid trig v(c) val=0.45 rise=1 targ v(vid) val=0.45 fall=1
+.measure tran TPHL_c-vid trig v(c) val=0.45 fall=1 targ v(vid) val=0.45 rise=1
+
+.measure tran TPLH_c-vse trig v(c) val=0.45 rise=1 targ v(vse) val=0.45 fall=2
+.measure tran TPHL_c-vse trig v(c) val=0.45 fall=1 targ v(vse) val=0.45 rise=2
+
+.measure tran TPLH_c-mid trig v(c) val=0.45 rise=1 targ v(mid) val=0.45 rise=1
+.measure tran TPHL_c-mid trig v(c) val=0.45 fall=1 targ v(mid) val=0.45 fall=1
+
+.measure tran TPLH_b-sup trig v(b) val=0.45 rise=1 targ v(sup) val=0.45 fall=2
+.measure tran TPHL_b-sup trig v(b) val=0.45 fall=1 targ v(sup) val=0.45 rise=2
+
+.measure tran TPLH_b-inf trig v(b) val=0.45 rise=1 targ v(inf) val=0.45 fall=2
+.measure tran TPHL_b-inf trig v(b) val=0.45 fall=1 targ v(inf) val=0.45 rise=2
+
+.measure tran TPLH_b-vie trig v(b) val=0.45 rise=1 targ v(vie) val=0.45 fall=2
+.measure tran TPHL_b-vie trig v(b) val=0.45 fall=1 targ v(vie) val=0.45 rise=2
+
+.measure tran TPLH_b-mid trig v(b) val=0.45 rise=1 targ v(mid) val=0.45 rise=2
+.measure tran TPHL_b-mid trig v(b) val=0.45 fall=1 targ v(mid) val=0.45 fall=2
+
+.measure tran TPLH_a-mid trig v(a) val=0.45 rise=1 targ v(mid) val=0.45 rise=3
+.measure tran TPHL_a-mid trig v(a) val=0.45 fall=1 targ v(mid) val=0.45 fall=3
+
+.tran 0.5p 9n
+
+.control
+run
+plot  d c+1 b+2 a+3 sup+4 vsd+5 vid+6 inf+8 vie+9 vse+10 mid+11
+.endc
+
+.end
+
+
+
+
+
+
+

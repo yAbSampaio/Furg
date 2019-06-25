@@ -1,0 +1,124 @@
+*-------Biblioteca-----
+
+*--------------------------Sub-circuitos------------------------
+.SUBCKT INV in out vdd gnd 
+Minv1 	out 	in 	vdd 	vdd 	pmos l=32n w=128n
+Minv2 	out 	in 	gnd 	gnd 	nmos l=32n w=64n 
+.ends INV
+
+*----------------------------------------------------------------
+.SUBCKT NAND2 inp1 inp2 out vdd gnd
+Mpu1 out	inp1 vdd	vdd	pmos l=32n w=128n
+Mpu2 out	inp2 vdd	vdd	pmos l=32n w=128n
+Mpd1 out	inp1 nd1	gnd	nmos l=32n w=128n
+Mpd2 nd1	inp2 gnd	gnd	nmos l=32n w=128n
+.ends NAND2
+
+*----------------------------------------------------------------
+.SUBCKT NAND3 inp1 inp2 inp3 out vdd gnd
+Mpu1 out	inp1 vdd	vdd	pmos l=32n w=128n
+Mpu2 out	inp2 vdd	vdd	pmos l=32n w=128n
+Mpu3 out	inp3 vdd	vdd	pmos l=32n w=128n
+Mpd1 out	inp1 nd1	gnd	nmos l=32n w=192n
+Mpd2 nd1	inp2 nd2	gnd	nmos l=32n w=192n
+Mpd3 nd2	inp3 gnd	gnd	nmos l=32n w=192n
+.ends NAND3
+
+*----------------------------------------------------------------
+.SUBCKT NAND4 in1 in2 in3 in4 out vdd gnd
+Mpu1 out	inp1 vdd	vdd	pmos l=32n w=128n
+Mpu2 out	inp2 vdd	vdd	pmos l=32n w=128n
+Mpu3 out	inp3 vdd	vdd	pmos l=32n w=128n
+Mpu4 out	inp4 vdd	vdd	pmos l=32n w=128n
+Mpd1 out	inp1 nd1	gnd	nmos l=32n w=256n
+Mpd2 nd1	inp2 nd2	gnd	nmos l=32n w=256n
+Mpd3 nd2	inp3 nd3	gnd	nmos l=32n w=256n
+Mpd4 nd3	inp4 gnd	gnd	nmos l=32n w=256n
+.ends NAND4
+
+*----------------------------------------------------------------
+.SUBCKT AND2 in1 in2 out vdd gnd
+Xnand1 in1 in2 nodo1 vdd gnd NAND2
+Xinv1 nodo1 out vdd gnd INV
+.ends AND2
+
+*----------------------------------------------------------------
+.SUBCKT AND3 in1 in2 in3 out vdd gnd
+Xnand1 in1 in2 in3 nodo1 vdd gnd NAND3
+Xinv1 nodo1 out vdd gnd INV
+.ends AND3
+
+*----------------------------------------------------------------
+.SUBCKT AND4 in1 in2 in3 in4 out vdd gnd
+Xnand1 in1 in2 in3 in4 nodo1 vdd gnd NAND4
+Xinv1 nodo1 out vdd gnd INV
+.ends AND4
+
+*----------------------------------------------------------------
+.SUBCKT NOR4 in1 in2 in3 in4 out vdd gnd
+Mpu1 nodo3	in1 vdd	vdd	pmos l=32n w=512n
+Mpu2 nodo2	in2 nodo3	vdd	pmos l=32n w=512n
+Mpu3 nodo1	in3 nodo2	vdd	pmos l=32n w=512n
+Mpu4 out	in4 nodo1	vdd	pmos l=32n w=512n
+Mpd1 out	in1 gnd	        gnd	nmos l=32n w=64n
+Mpd2 out	in2 gnd		gnd	nmos l=32n w=64n
+Mpd3 out	in3 gnd		gnd	nmos l=32n w=64n
+Mpd4 out	in4 gnd		gnd	nmos l=32n w=64n
+.ends NOR4
+
+*----------------------------------------------------------------
+.SUBCKT OR4 in1 in2 in3 in4 out vdd gnd
+Xnor1 in1 in2 in3 in4 nodo1 vdd gnd NOR4
+Xinv1 nodo1 out vdd gnd INV
+.ends OR4
+
+*----------------------------------------------------------------
+
+.SUBCKT NOR5 in1 in2 in3 in4 in5 out vdd gnd
+Mpu1 nodo4	in1 vdd		vdd	pmos l=32n w=512n
+Mpu2 nodo3	in2 nodo4	vdd	pmos l=32n w=512n
+Mpu3 nodo2	in3 nodo3	vdd	pmos l=32n w=512n
+Mpu4 nodo1	in4 nodo2	vdd	pmos l=32n w=512n
+Mpu5 out	in5 nodo1	vdd	pmos l=32n w=512n
+Mpd1 out	in1 gnd	        gnd	nmos l=32n w=64n
+Mpd2 out	in2 gnd		gnd	nmos l=32n w=64n
+Mpd3 out	in3 gnd		gnd	nmos l=32n w=64n
+Mpd4 out	in4 gnd		gnd	nmos l=32n w=64n
+Mpd5 out	in5 gnd		gnd	nmos l=32n w=64n
+.ends NOR5
+
+*----------------------------------------------------------------
+.SUBCKT OR5 in1 in2 in3 in4 in5 out vdd gnd
+Xnor1 in1 in2 in3 in4 in5 nodo1 vdd gnd NOR5
+Xinv1 nodo1 out vdd gnd INV
+.ends OR5
+
+*----------------------------------------------------------------
+.SUBCKT NOR2 in1 in2 out vdd gnd
+MP1 nodo1    in1 vdd    vdd    pmos l=32n w=256n
+MP2 out        in2 nodo1    vdd    pmos l=32n w=256n
+MN1 out        in1 gnd    gnd    nmos l=32n w=64n
+MN2 out        in2 gnd    gnd    nmos l=32n w=64n
+.ends NOR2
+
+*----------------------------------------------------------------
+.SUBCKT NOR3 in1 in2 in3 out vdd gnd
+MP1 nodo1    in1 vdd    vdd    pmos l=32n w=384n
+MP2 nodo2    in2 nodo1  vdd    pmos l=32n w=384n
+MP3 out      in3 nodo2  vdd     pmos l=32n w=384n
+MN1 out      in1 gnd    gnd    nmos l=32n w=64n
+MN2 out      in2 gnd    gnd    nmos l=32n w=64n
+MN3 out      in3 gnd    gnd    nmos l=32n w=64n
+.ends NOR3
+
+*----------------------------------------------------------------
+.SUBCKT OR2 in1 in2 out vdd gnd
+Xnor1 in1 in2 nodo1 vdd gnd NOR2
+Xinv1 nodo1 out vdd gnd INV
+.ends OR2
+
+*----------------------------------------------------------------
+.SUBCKT OR3 in1 in2 in3 out vdd gnd
+Xnor1 in1 in2 in3 nodo1 vdd gnd NOR3
+Xinv1 nodo1 out vdd gnd INV
+.ends OR3
